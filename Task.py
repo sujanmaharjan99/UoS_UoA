@@ -14,18 +14,20 @@ Q_given=[0.402,0.454,0.798,0.817,3.25,5.07,
 I = [0,21.7,0.9,16.3,37.6,4.5,2,0.1,0.1,
      2.5,17.6,0.1,2,0.3,1.5,0,0,0,0,0,0.1]          #Infiltration
 
-Q_calc.append(Q_given[0])   #Setting initial value as the initial outflow
+def model(Q_given,I,A,c,Tr):
+    Q_calc.append(Q_given[0])   #Setting initial value as the initial outflow
 
-for i in range (1,len(I)):        #Calculate missing values
-    Q_tplus1 = (c * A * I[i-1] / 1000 + (Q_calc[i-1] - c * A * I[i-1] / 1000) * e)
+    for i in range (1,len(I)):        #Calculate missing values
+        Q_tplus1 = (c * A * I[i-1] / 1000 + (Q_calc[i-1] - c * A * I[i-1] / 1000) * e)
 
-    Q_calc.append(Q_tplus1)
+        Q_calc.append(Q_tplus1)
+  
+    return Q_calc
 
+Q_calc=model(Q_given,I,A,c,Tr)
 df=pd.DataFrame({'Date': pd.date_range(start='6/15/2023', periods=21, freq='D'),
-                 'Q calculated':Q_calc,
-                 'Q given':Q_given,
-                 'Infiltration':I
-                 })
+                    'Infiltration':I,
+                    'Q given':Q_given,
+                    'Q calculated':Q_calc,
+                    })
 print(df)
-
-

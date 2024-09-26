@@ -5,10 +5,10 @@ from cmath import exp
 import numpy as np
 
 A= 247              #Area of the basin
-c= 1           #Runoff coefficient
-Tr= 5.96*3600       #Residence time in seconds
+c= 1             #Runoff coefficient
+Tr= 0.1             #Residence time in seconds
 Q_calc = []         #Discharge
-e=np.exp(-1/5.96)      
+e=np.exp(-1/(Tr))
 
 Q_given=[0.402,0.454,0.798,0.817,3.25,5.07,
          5.32,5.23,4.57,4.05,4.26,4.09,3.54,
@@ -20,7 +20,6 @@ Q_calc.append(Q_given[0])   #Setting initial value as the initial outflow
 
 for i in range (1,len(I)):        #Calculate missing values
     Q_tplus1 = (c * A * I[i-1] / 1000 + (Q_calc[i-1] - c * A * I[i-1] / 1000) * e)
-
     Q_calc.append(Q_tplus1)
 
 df=pd.DataFrame({'Date': pd.date_range(start='6/15/2023', periods=21, freq='D'),
@@ -47,7 +46,7 @@ ax1.plot(df['Date'],df['Q given'],label='Q given',marker='x')
 ax1.set_xlabel('Date')
 plt.xticks(rotation=30)
 ax1.set_ylabel('Discharge (m³/s)')
-ax1.set_title('c={:.3f} & Tr={:.2f} d \n RMSE:{:.2f}m³/s & NSE: {:.2f}'.format(c, Tr/3600,rms,nse))
+ax1.set_title('c={:.3f} & Tr={:.2f} d \n RMSE:{:.2f}m³/s & NSE: {:.2f}'.format(c, Tr,rms,nse))
 ax1.grid(True)
 
 ax2 = ax1.twinx()
