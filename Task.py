@@ -3,10 +3,10 @@ from cmath import exp
 import numpy as np
 
 A= 247              #Area of the basin
-c= 0.172            #Runoff coefficient
-Tr= 5.96*3600       #Residence time in seconds
+c= 0.7            #Runoff coefficient
+Tr=4       #Residence time in seconds
 Q_calc = []         #Discharge
-e=np.exp(-1/5.96)      
+    
 
 Q_given=[0.402,0.454,0.798,0.817,3.25,5.07,
          5.32,5.23,4.57,4.05,4.26,4.09,3.54,
@@ -15,6 +15,7 @@ I = [0,21.7,0.9,16.3,37.6,4.5,2,0.1,0.1,
      2.5,17.6,0.1,2,0.3,1.5,0,0,0,0,0,0.1]          #Infiltration
 
 def model(Q_given,I,A,c,Tr):
+    e=np.exp(-1/Tr)  
     Q_calc.append(Q_given[0])   #Setting initial value as the initial outflow
 
     for i in range (1,len(I)):        #Calculate missing values
